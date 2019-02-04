@@ -31,7 +31,7 @@ object PoeDocumentService {
   /**
     * This attempts to extract specific affix information from a given item type page. There are several problems
     * to consider with these pages.
-    *
+    *.
     *  - The initial prefix / suffix panels contain essence affixes and crafting affixes mixed in with the normal
     *    affixes
     *  - The shaper and elder sections do not indicate whether they are prefix or suffix

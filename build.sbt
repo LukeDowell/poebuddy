@@ -12,7 +12,8 @@ lazy val global = project
   .settings(settings)
   .aggregate(
     common,
-    affixscraper
+    affixscraper,
+    `el-tradeapi-escuchador`
   )
 
 lazy val common = project
@@ -36,6 +37,18 @@ lazy val affixscraper = project
   )
   .dependsOn(common)
 
+lazy val `el-tradeapi-escuchador` = project
+  .settings(
+    name := "el-tradeapi-escuchador",
+    settings,
+    libraryDependencies ++= commonDependencies ++ Seq(
+      dependencies.akka,
+      dependencies.akkaTestkit,
+      dependencies.akkaHttp,
+      dependencies.akkaHttpTestkit,
+    )
+  )
+
 //////////////////
 // DEPENDENCIES //
 //////////////////
@@ -52,6 +65,8 @@ lazy val dependencies =
     val scalaTestVersion = "3.0.5"
     val jacksonVersion = "2.9.8"
     val finatraJacksonVersion = "19.1.0"
+    val playJsonVersion = "2.6.10"
+    val playJsonExtensionsVersion = "0.20.0"
 
     val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
     val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
@@ -65,6 +80,8 @@ lazy val dependencies =
     val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
     val jacksonModuleScala = "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
     val finatraJackson = "com.twitter" %% "finatra-jackson" % finatraJacksonVersion
+    val playJson = "com.typesafe.play" %% "play-json" % playJsonVersion
+    val playJsonExtensions = "ai.x" %% "play-json-extensions" % playJsonExtensionsVersion
   }
 
 lazy val commonDependencies = Seq(
@@ -73,7 +90,8 @@ lazy val commonDependencies = Seq(
   dependencies.typesafeConfig,
   dependencies.jacksonDatabind,
   dependencies.jacksonModuleScala,
-  dependencies.finatraJackson
+  dependencies.playJson,
+  dependencies.playJsonExtensions
 )
 
 //////////////
