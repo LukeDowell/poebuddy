@@ -1,5 +1,10 @@
 ## Tech History
 
+### Site Scraping
+
+I went with Akka and Jsoup. Akka for no reason in particular I suppose, I just like it for easy concurrency and the 
+way it encourages you to break up your application. I have used Jsoup in the past and I have absolutely no complaints, 
+it seems to be the de-facto jvm solution for parsing HTML and I can definitely see why. 
 
 ### Deserializing Json into Scala Case Classes
 
@@ -24,4 +29,19 @@ think I'm just going to write extension functions that basically "wrap" the poor
 will be a lot faster and less work than trying to get play json macros to obey jackson annotations, which probably 
 isn't even possible.
 
-### 
+### Persistence
+
+At the moment, the only way this project gets data is through scraping other sites for information. I'd like to be able
+to persist that data somehow and only update my local copy every once in a while whenever it's necessary. In my wildest
+dreams I'd get a "base" set of information on POE mods, then update those values with my own data calculated from the 
+POE trade api. I have to think of a way to:
+
+1. Uniquely identify mods in a repeatable way, so that when we encounter one through the trade api or scraping a mod 
+   site, we can create an identifier for a mod in an idempotent way. Perhaps some sort of hash on the filled out case
+   class.
+   
+2. Stream new pieces of information into a repo of some kind and "compile" it into a new set of aggregated information.
+   This might be a reasonable use case to explore event sourcing especially since it can be scoped to a very specific 
+   portion of this project.
+   
+

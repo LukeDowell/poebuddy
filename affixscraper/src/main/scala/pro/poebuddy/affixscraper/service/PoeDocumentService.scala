@@ -46,7 +46,10 @@ object PoeDocumentService {
     */
   def extractItemTypeAffixes(itemType: String, doc: Document): Map[String, String] = {
     val modCategoryPanels = doc.select(".col-lg-6")
-    val vaalMods = doc.select()
+        .asScala
+        .toList
+
+
 
     Map.empty
   }

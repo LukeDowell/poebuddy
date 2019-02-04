@@ -64,7 +64,6 @@ lazy val dependencies =
     val typesafeConfigVersion = "1.3.3"
     val scalaTestVersion = "3.0.5"
     val jacksonVersion = "2.9.8"
-    val finatraJacksonVersion = "19.1.0"
     val playJsonVersion = "2.6.10"
     val playJsonExtensionsVersion = "0.20.0"
 
@@ -79,7 +78,6 @@ lazy val dependencies =
     val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion % Test
     val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
     val jacksonModuleScala = "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
-    val finatraJackson = "com.twitter" %% "finatra-jackson" % finatraJacksonVersion
     val playJson = "com.typesafe.play" %% "play-json" % playJsonVersion
     val playJsonExtensions = "ai.x" %% "play-json-extensions" % playJsonExtensionsVersion
   }
@@ -88,8 +86,6 @@ lazy val commonDependencies = Seq(
   dependencies.scalaLogging,
   dependencies.scalaTest,
   dependencies.typesafeConfig,
-  dependencies.jacksonDatabind,
-  dependencies.jacksonModuleScala,
   dependencies.playJson,
   dependencies.playJsonExtensions
 )
