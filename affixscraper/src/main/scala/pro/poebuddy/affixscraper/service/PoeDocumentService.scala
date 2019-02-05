@@ -1,7 +1,8 @@
 package pro.poebuddy.affixscraper.service
 
 import org.jsoup.nodes.{Document, Element}
-import scala.collection.JavaConverters._
+import pro.poebuddy.common.AffixModels.Affix
+import pro.poebuddy.affixscraper.extensions.JsoupExtensions._
 
 
 object PoeDocumentService {
@@ -22,8 +23,6 @@ object PoeDocumentService {
     }
 
     doc.select("#navbar-collapse2 > .navbar-nav > .dropdown > .dropdown-menu > li")
-      .asScala
-      .toList
       .map(elementToEquipmentAndUrlPair)
       .toMap
   }
@@ -44,13 +43,35 @@ object PoeDocumentService {
     * @param doc A jsoup document for a given item page on poedb
     * @return
     */
-  def extractItemTypeAffixes(itemType: String, doc: Document): Map[String, String] = {
+  def extractItemTypeAffixes(itemType: String, doc: Document): Seq[Affix] = {
     val modCategoryPanels = doc.select(".col-lg-6")
-        .asScala
-        .toList
 
+    def processAffixPair(affixPair: (Element, Element), source: String): Seq[Affix] = {
+      val affixInfo = affixPair._1
+      val affixTable = affixPair._2
 
+      Seq(Affix(
+        name = "Example Affix",
+        tier = "1",
+        effect = "",
+        source = source,
+        requiredItemLevel = 1,
+        isLocal = true,
+        chance = 0.0
+      ))
+    }
 
-    Map.empty
+    def processModPanel(modPanel: Element): Seq[Affix] = {
+      val panelChildren = modPanel.children()
+      val panelTitle = panelChildren.head.text()
+
+      panelChildren.tail
+        .sliding(2)
+        .map(pair => (pair.head, pair.tail.head))
+        .flatMap(processAffixPair(_, panelTitle))
+        .toSeq
+    }
+
+    modCategoryPanels.flatMap(processModPanel)
   }
 }
