@@ -50,10 +50,15 @@ object PoeDocumentService {
       val affixInfo = affixPair._1
       val affixTable = affixPair._2
 
+      val fossilTags = affixInfo.children().first().text()
+      affixInfo.children().first().remove() // So the tags don't pollute our effect text
+
+      val effectText = affixInfo.text()
+
       Seq(Affix(
         name = "Example Affix",
         tier = "1",
-        effect = "",
+        effect = effectText,
         source = source,
         requiredItemLevel = 1,
         isLocal = true,
@@ -66,7 +71,7 @@ object PoeDocumentService {
       val panelTitle = panelChildren.head.text()
 
       panelChildren.tail
-        .sliding(2)
+        .grouped(2)
         .map(pair => (pair.head, pair.tail.head))
         .flatMap(processAffixPair(_, panelTitle))
         .toSeq
