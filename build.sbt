@@ -53,7 +53,6 @@ lazy val `el-tradeapi-escuchador` = project
 // DEPENDENCIES //
 //////////////////
 
-
 lazy val dependencies =
   new {
     val logbackVersion = "1.2.3"

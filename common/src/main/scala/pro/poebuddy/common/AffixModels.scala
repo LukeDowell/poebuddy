@@ -33,10 +33,19 @@ object AffixModels {
                     chance: Double
                   )
 
-  // Maybe, since there are so many subtly different types, composition would be a better representative?
-  trait PoeAffix {
-    val effect: String
-    val values: Seq[Range] = Seq.empty
-    val requiredItemLevel: Int = 1
-  }
+  case class PoeAffix(
+                       effect: String,
+                       fossilTags: Seq[String] = Seq.empty,
+                       source: String,
+                       tiers: Seq[TieredPoeAffix] = Seq.empty,
+                       isLocal: Boolean
+                     )
+
+  case class TieredPoeAffix(
+                             name: String,
+                             tier: Int,
+                             values: Seq[Array[Int]] = Seq.empty,
+                             requiredItemLevel: Int,
+                             chance: Double = 0.0
+                           )
 }

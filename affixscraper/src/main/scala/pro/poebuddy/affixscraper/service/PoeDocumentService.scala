@@ -1,7 +1,7 @@
 package pro.poebuddy.affixscraper.service
 
 import org.jsoup.nodes.{Document, Element}
-import pro.poebuddy.common.AffixModels.Affix
+import pro.poebuddy.common.AffixModels.{Affix, PoeAffix}
 import pro.poebuddy.affixscraper.extensions.JsoupExtensions._
 
 
@@ -43,37 +43,38 @@ object PoeDocumentService {
     * @param doc A jsoup document for a given item page on poedb
     * @return
     */
-  def extractItemTypeAffixes(itemType: String, doc: Document): Seq[Affix] = {
+  def extractItemTypeAffixes(itemType: String, doc: Document): Seq[PoeAffix] = {
     val modCategoryPanels = doc.select(".col-lg-6")
 
-    def processAffixPair(affixPair: (Element, Element), source: String): Seq[Affix] = {
+    def processAffixPair(affixPair: (Element, Element), source: String): PoeAffix = {
       val affixInfo = affixPair._1
-      val affixTable = affixPair._2
+      val affixTable = affixPair._2.select("table")
 
       val fossilTags = affixInfo.children().first().text().split(" ").distinct
       affixInfo.children().first().remove() // So the tags don't pollute our effect text
 
       val effectText = affixInfo.text()
+      val isLocal = affixTable.select("tr > th").exists(_.text().equalsIgnoreCase("Local"))
 
-      Seq(Affix(
-        name = "Example Affix",
-        tier = "1",
+      // This part might be a bit tricky, several of the tables are formatted differently.
+
+      PoeAffix(
         effect = effectText,
+        fossilTags = fossilTags,
         source = source,
-        requiredItemLevel = 1,
-        isLocal = true,
-        chance = 0.0
-      ))
+        isLocal = isLocal,
+        tiers = Seq()
+      )
     }
 
-    def processModPanel(modPanel: Element): Seq[Affix] = {
+    def processModPanel(modPanel: Element): Seq[PoeAffix] = {
       val panelChildren = modPanel.children()
       val panelTitle = panelChildren.head.text()
 
       panelChildren.tail
         .grouped(2)
         .map(pair => (pair.head, pair.tail.head))
-        .flatMap(processAffixPair(_, panelTitle))
+        .map(processAffixPair(_, panelTitle))
         .toSeq
     }
 

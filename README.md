@@ -9,7 +9,7 @@ account and provide several solutions to a given crafting problem.
 
 ### [AffixScraper][AffixScraperDoc]
 
-Scrapes mod information from poedb.tw and persists it
+Scrapes mod information from poedb.tw and persists it.
 
 ### [Common][CommonDoc]
 
