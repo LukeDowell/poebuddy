@@ -1,2 +1,0 @@
-# El TradeAPI Escuchador
-

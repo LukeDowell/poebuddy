@@ -7,17 +7,28 @@ The definition of "best" is variable. For some it might mean "fastest", and for
 others it might mean "cheapest". The application should be able to take this into
 account and provide several solutions to a given crafting problem.
 
-## Sub Projects
+### [AffixScraper][AffixScraperDoc]
 
-* [AffixScraper][AffixScraperDoc]
+Scrapes mod information from poedb.tw and persists it
 
-* [Common][CommonDoc]
+### [Common][CommonDoc]
 
-* [El TradeAPI Escuchador][EscuchadorDoc]
+Contains models and libraries relevant to the rest of the project
 
-* Web
+### [El TradeAPI Escuchador][EscuchadorDoc]
 
+Listens to the TradeAPI. 
 
-[AffixScraperDoc]: affixscraper/README.md
-[CommonDoc]: common/README.md
-[EscuchadorDoc]: el-tradeapi-escuchador/README.md
+### Web
+
+Play + React application that serves the site and REST api.
+
+### [Technical History][TechnicalHistoryDoc]
+
+A log of technical choices I made and why. Probably not useful, mostly just a garbage can of 
+ideas that I can refer to later if I need to.
+
+[AffixScraperDoc]: affixscraper/
+[CommonDoc]: common/
+[EscuchadorDoc]: el-tradeapi-escuchador/
+[TechnicalHistoryDoc]: doc/technical-history.md

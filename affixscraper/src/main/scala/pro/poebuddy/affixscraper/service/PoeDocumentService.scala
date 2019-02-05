@@ -50,7 +50,7 @@ object PoeDocumentService {
       val affixInfo = affixPair._1
       val affixTable = affixPair._2
 
-      val fossilTags = affixInfo.children().first().text()
+      val fossilTags = affixInfo.children().first().text().split(" ").distinct
       affixInfo.children().first().remove() // So the tags don't pollute our effect text
 
       val effectText = affixInfo.text()
