@@ -32,7 +32,10 @@ lazy val affixscraper = project
       dependencies.akkaTestkit,
       dependencies.akkaHttp,
       dependencies.akkaHttpTestkit,
-      dependencies.jsoup
+      dependencies.jsoup,
+      dependencies.slick,
+      dependencies.hickari,
+      dependencies.h2
     )
   )
   .dependsOn(common)
@@ -65,6 +68,8 @@ lazy val dependencies =
     val jacksonVersion = "2.9.8"
     val playJsonVersion = "2.6.10"
     val playJsonExtensionsVersion = "0.20.0"
+    val slickVersion = "3.3.0"
+    val h2Version = "1.4.192"
 
     val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
     val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
@@ -79,6 +84,9 @@ lazy val dependencies =
     val jacksonModuleScala = "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
     val playJson = "com.typesafe.play" %% "play-json" % playJsonVersion
     val playJsonExtensions = "ai.x" %% "play-json-extensions" % playJsonExtensionsVersion
+    val slick = "com.typesafe.slick" %% "slick" % slickVersion
+    val hickari = "com.typesafe.slick" %% "slick-hikaricp" % slickVersion
+    val h2 = "com.h2database" % "h2" % h2Version
   }
 
 lazy val commonDependencies = Seq(

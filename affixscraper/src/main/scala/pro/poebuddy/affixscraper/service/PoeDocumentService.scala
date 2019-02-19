@@ -1,8 +1,8 @@
 package pro.poebuddy.affixscraper.service
 
 import org.jsoup.nodes.{Document, Element}
-import pro.poebuddy.common.AffixModels.{Affix, PoeAffix}
 import pro.poebuddy.affixscraper.extensions.JsoupExtensions._
+import pro.poebuddy.common.AffixModels.PoeAffix
 
 
 object PoeDocumentService {
@@ -12,10 +12,7 @@ object PoeDocumentService {
     * This page also has a panel that contains links to every item type and their relevant mods. This function
     * extracts the name of the item type and the link to that type's mod page. The item names are not formatted
     * in a consistent way, this will have to be dealt with later. As an example, one item type may be named
-    * "One Hand Swords" and another might be "top_tier_map" while yet another might be "Helmets(StrDex)".
-    *
-    * @param doc The jsoup document pulled from the poedb base mod page
-    * @return A map of item type string pointing to that type's mod page
+    * "One Hand Swords" and another might be "top_tier_map" while y mod page
     */
   def extractItemModPages(doc: Document): Map[String, String] = {
     def elementToEquipmentAndUrlPair(el: Element): (String, String) = {
@@ -46,38 +43,20 @@ object PoeDocumentService {
   def extractItemTypeAffixes(itemType: String, doc: Document): Seq[PoeAffix] = {
     val modCategoryPanels = doc.select(".col-lg-6")
 
-    def processAffixPair(affixPair: (Element, Element), source: String): PoeAffix = {
-      val affixInfo = affixPair._1
-      val affixTable = affixPair._2.select("table")
+    def findTableParserForTitle(title: String): TableModParser = Seq(EssenceModParser, DelveModParser)
+      .find(_.targetModRegex.findFirstMatchIn(title).isDefined)
+      .getOrElse(StandardModParser)
 
-      val fossilTags = affixInfo.children().first().text().split(" ").distinct
-      affixInfo.children().first().remove() // So the tags don't pollute our effect text
-
-      val effectText = affixInfo.text()
-      val isLocal = affixTable.select("tr > th").exists(_.text().equalsIgnoreCase("Local"))
-
-      // This part might be a bit tricky, several of the tables are formatted differently.
-
-      PoeAffix(
-        effect = effectText,
-        fossilTags = fossilTags,
-        source = source,
-        isLocal = isLocal,
-        tiers = Seq()
-      )
-    }
-
-    def processModPanel(modPanel: Element): Seq[PoeAffix] = {
+    modCategoryPanels.flatMap(modPanel => {
       val panelChildren = modPanel.children()
       val panelTitle = panelChildren.head.text()
+      val tableModParser = findTableParserForTitle(panelTitle)
 
       panelChildren.tail
         .grouped(2)
         .map(pair => (pair.head, pair.tail.head))
-        .map(processAffixPair(_, panelTitle))
+        .map(new ModParser(_, panelTitle).parse(tableModParser))
         .toSeq
-    }
-
-    modCategoryPanels.flatMap(processModPanel)
+    })
   }
 }

@@ -25,8 +25,7 @@ Play + React application that serves the site and REST api.
 
 ### [Technical History][TechnicalHistoryDoc]
 
-A log of technical choices I made and why. Probably not useful, mostly just a garbage can of 
-ideas that I can refer to later if I need to.
+A log of technical choices that were made and the reasoning / train of thought behind them.
 
 [AffixScraperDoc]: affixscraper/
 [CommonDoc]: common/

@@ -2,8 +2,8 @@
 
 ### Site Scraping
 
-I went with Akka and Jsoup. Akka for no reason in particular I suppose, I just like it for easy concurrency and the 
-way it encourages you to break up your application. I have used Jsoup in the past and I have absolutely no complaints, 
+I went with Akka and Jsoup. Akka for no reason in particular, it's useful for my day job and I use it wherever I can in
+the hopes that I learn more about it passively. I have used Jsoup in the past and I have absolutely no complaints, 
 it seems to be the de-facto jvm solution for parsing HTML and I can definitely see why. 
 
 ### Deserializing Json into Scala Case Classes
@@ -25,7 +25,7 @@ finished building it yet. Maybe we can leave that field as a linked list or what
 format it later? The recursion issue might have something to do with the format being implicit.
 
 Instead of using jackson annotations to get the oddly formatted json into a format that follows scala conventions, I 
-think I'm just going to write extension functions that basically "wrap" the poorly named fields with better names. That
+think I'm just going to write functions that basically "wrap" the poorly named fields with better names. That
 will be a lot faster and less work than trying to get play json macros to obey jackson annotations, which probably 
 isn't even possible.
 
@@ -45,3 +45,6 @@ POE trade api. I have to think of a way to:
    portion of this project.
    
 
+I'm coming back to this project after not touching it for a week or two. It's funny how drastically my perspective can 
+change with the release of synthesis around the corner. I look at all the stuff I wrote above and think "that's garbage,
+just get it working". Thus I'm going to store everything in postgres and use slick for my db access library.
